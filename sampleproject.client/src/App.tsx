@@ -1,16 +1,9 @@
 import { useEffect, useState } from 'react';
-import { makeStyles, mergeClasses } from '@fluentui/react-components';
 import { getRecords } from './apis/records';
-import ErrorBoundary from './components/ErrorBoundary';
-
-const useStyles = makeStyles({
-  root: { color: 'red' },
-  rootPrimary: { color: 'blue' },
-});
-
+import { type Record } from './types/records';
+import RecordsGrid from './components/records/RecordsGrid';
 function App() {
-    const classes = useStyles();
-	const [data, setData] = useState<any[]>([]);
+	const [data, setData] = useState<Record[]>([]);
 
     useEffect(() => {
 		getRecords({
@@ -18,16 +11,16 @@ function App() {
 			pageSize: 100,
 			sortBy: 'SentAt',
 			sortOrder: 'asc'
-		}).then(records => {
-			console.log(records);
-			setData(records);
+		}).then(response => {
+			console.log(response);
+			setData(response.data.items);
 		});
     }, []);
 
 
 	return (
 		<div>
-
+			<RecordsGrid />
 		</div>
 	);
 
